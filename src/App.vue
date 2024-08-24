@@ -71,7 +71,7 @@ const employeeLists = Array.from({ length: 150 }, () => ({
       <div class="flex justify-between p-5">
         <div>
           <i class="pi pi-arrow-left"></i>
-          <span class="mx-5 text-xl">ceo</span>
+          <span class="mx-5 text-xl">Employee Directory</span>
           <i class="pi pi-filter-fill mr-5"></i>
           <i class="pi pi-search"></i>
         </div>
