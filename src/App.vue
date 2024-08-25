@@ -7,33 +7,39 @@ import ColumnGroup from "primevue/columngroup"; // optional
 import Row from "primevue/row"; // optional
 
 import { faker } from "@faker-js/faker";
-
 import "primeicons/primeicons.css";
+import Paginator from "primevue/paginator";
+import { ref, onMounted } from "vue";
 
-const employeeLists = Array.from({ length: 150 }, () => ({
-  image: faker.image.avatar(),
-  name: faker.person.fullName(),
-  location: faker.location.city(),
-  email: faker.internet.email(),
-  phone: faker.phone.number("+959#########"),
-  department: faker.commerce.department(),
-  employeeCode: faker.number.int({ min: 100, max: 999 }),
-  // customTags: faker.person.jobTitle(),
-  customTags: "Intern",
-  positions: "UX Designer",
-  nrc: "12/PABATA(N)44444",
-  manager: "Zayer Zay",
-  managerPosition: "CEO",
-  joinnedDate: "12.2.2021",
-  terminateDate: "-",
-}));
+const employees = ref();
+const selectedEmployees = ref();
+
+onMounted(() => {
+  employees.value = Array.from({ length: 150 }, () => ({
+    image: faker.image.avatar(),
+    name: faker.person.fullName(),
+    location: faker.location.city(),
+    email: faker.internet.email(),
+    phone: faker.phone.number("+959#########"),
+    department: faker.commerce.department(),
+    employeeCode: faker.number.int({ min: 100, max: 999 }),
+    // customTags: faker.person.jobTitle(),
+    customTags: "Intern",
+    positions: "UX Designer",
+    nrc: "12/PABATA(N)44444",
+    manager: "Zayer Zay",
+    managerPosition: "CEO",
+    joinnedDate: "12.2.2021",
+    terminateDate: "-",
+  }));
+});
 </script>
 
 <template>
   <div class="flex">
     <div class="min-w-[64px] bg-gray-200 flex flex-col justify-between">
       <div class="sticky top-0">
-        <img src="../public/image/logo.png" width="64px" height="64px" />
+        <img src="../image/logo.png" width="64px" height="64px" />
         <div class="flex flex-col gap-5 items-center mt-2">
           <i class="pi pi-desktop"></i>
           <i class="pi pi-clock"></i>
@@ -49,29 +55,30 @@ const employeeLists = Array.from({ length: 150 }, () => ({
         </div>
       </div>
       <div class="sticky bottom-0 flex flex-col items-center gap-3">
-        <i class="pi pi-file-arrow-up"></i>
-        <i class="pi pi-address-book"></i>
+        <i class="pi pi-file-arrow-up my-2"></i>
+        <i class="pi pi-address-book mb-1"></i>
         <img
-          :src="`https://primefaces.org/cdn/primevue/images/avatar/ionibowcher.png`"
-          style="width: 24px"
+          :src="`https://primefaces.org/cdn/primevue/images/avatar/onyamalimba.png`"
+          width="40"
+          height="40"
         />
       </div>
     </div>
-    <div class="min-w-[200px] bg-gray-100 px-5 ">
+    <div class="min-w-[200px] bg-gray-100 px-5">
       <div class="flex flex-col gap-6 sticky top-0">
-      <h1 class="font-bold text-lg mt-7">Employees</h1>
-      <p class="text-green-500">Directory</p>
-      <p>Update Request</p>
-      <p>Reporting Lines</p>
-      <p>Department structures</p>
+        <h1 class="font-bold text-lg mt-7">Employees</h1>
+        <p class="text-green-500">Directory</p>
+        <p>Update Request</p>
+        <p>Reporting Lines</p>
+        <p>Department structures</p>
+      </div>
     </div>
-    </div>
-    
+
     <div class="grow px-6 overflow-x-hidden">
       <div class="flex justify-between p-5">
         <div>
           <i class="pi pi-arrow-left"></i>
-          <span class="mx-5 text-xl">Employee Directory</span>
+          <span class="mx-5 text-xl font-semibold">Employee Directory</span>
           <i class="pi pi-filter-fill mr-5"></i>
           <i class="pi pi-search"></i>
         </div>
@@ -81,7 +88,8 @@ const employeeLists = Array.from({ length: 150 }, () => ({
         </div>
       </div>
       <DataTable
-        :value="employeeLists"
+        :value="employees"
+        v-model:selection="selectedEmployees"
         stripedRows
         scrollable
         scrollWidth="60rem"
@@ -89,18 +97,20 @@ const employeeLists = Array.from({ length: 150 }, () => ({
         :rows="50"
         :rowsPerPageOptions="[50, 75, 100]"
       >
+        <Column selectionMode="multiple" frozen alignFrozen="left"></Column>
         <Column
-          selectionMode="multiple"
+          field="name"
+          header="Employees"
           frozen
           alignFrozen="left"
-        ></Column>
-        <Column field="name" header="Employees" frozen alignFrozen="left" style="min-width: 200px;">
+          style="min-width: 200px"
+        >
           <template #body="slotProps">
             <div class="flex items-center gap-2">
               <img
-                alt="flag"
-                :src="`https://primefaces.org/cdn/primevue/images/avatar/ionibowcher.png`"
-                style="width: 24px"
+                alt="avatar"
+                :src="slotProps.data.image"
+                class="w-6 rounded-full"
               />
               <span>{{ slotProps.data.name }}</span>
             </div>
