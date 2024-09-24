@@ -3,19 +3,15 @@ import Button from "primevue/button";
 
 import DataTable from "primevue/datatable";
 import Column from "primevue/column";
-import ColumnGroup from "primevue/columngroup"; // optional
-import Row from "primevue/row"; // optional
 
 import { faker } from "@faker-js/faker";
 import "primeicons/primeicons.css";
-import Paginator from "primevue/paginator";
 import { ref, onMounted } from "vue";
 
 const employees = ref();
 const selectedEmployees = ref();
 
-onMounted(() => {
-  employees.value = Array.from({ length: 150 }, () => ({
+onMounted(() => { employees.value = Array.from({ length: 150 }, () => ({
     image: faker.image.avatar(),
     name: faker.person.fullName(),
     location: faker.location.city(),
@@ -23,7 +19,6 @@ onMounted(() => {
     phone: faker.phone.number("+959#########"),
     department: faker.commerce.department(),
     employeeCode: faker.number.int({ min: 100, max: 999 }),
-    // customTags: faker.person.jobTitle(),
     customTags: "Intern",
     positions: "UX Designer",
     nrc: "12/PABATA(N)44444",
@@ -89,8 +84,8 @@ onMounted(() => {
       </div>
       <DataTable
         :value="employees"
-        v-model:selection="selectedEmployees"
-        stripedRows
+        v-model="selectedEmployees"
+        stripedRowsv-model="selectedEmployees"
         scrollable
         scrollWidth="60rem"
         paginator
@@ -138,8 +133,5 @@ onMounted(() => {
 th,
 td {
   min-width: 140px;
-}
-td:first-child {
-  background-color: brown;
 }
 </style>
